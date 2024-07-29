@@ -1,0 +1,170 @@
+﻿@model IEnumerable<FasTagApi.Models.VehicleRequest>
+
+@{
+    ViewBag.Title = "Vehicle Requests";
+}
+
+<style>
+    /* Existing styles */
+    body {
+        background-color: cornsilk;
+        font-size: 0.9rem; /* Reduce font size for the entire page */
+    }
+
+    .table {
+        margin-top: 20px;
+        background-color: #ffffff;
+        font-size: 0.9rem; /* Reduce font size for table content */
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: lavenderblush;
+    }
+
+    .btn-warning {
+        margin-right: 5px;
+        color: white;
+    }
+
+    .btn-danger {
+        margin-right: 5px;
+        color: white;
+    }
+
+    h2 {
+        font-family: 'Arial', sans-serif;
+        font-size: 1.5rem;
+        text-shadow: 2px 2px 4px #888888;
+        text-align: center;
+    }
+
+    .title-span {
+        background-color: darkblue;
+        color: white;
+        padding: 2px;
+        border-radius: 10px;
+    }
+
+    .container-fluid {
+        padding: 20px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+        .table-bordered thead th,
+        .table-bordered tbody td {
+            border: 1px solid #dee2e6;
+        }
+
+        .table-bordered thead th {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+        .table-bordered tbody td {
+            color: #212529;
+        }
+
+        .table-bordered tbody tr:hover {
+            background-color: lightskyblue;
+        }
+
+    .text-info {
+        color: #17a2b8;
+    }
+
+    .fw-bold {
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    // Function to refresh the page every 60 seconds (60000 milliseconds)
+    setInterval(function () {
+        location.reload();
+    }, 60000); // 60000 milliseconds = 60 seconds
+</script>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+<body>
+    <div class="container-fluid mt-4">
+        <h2><span class="title-span">Fastag Recharge Requisition Details</span></h2>
+        @Html.ActionLink("Mobile Number Change Request", "IndexMobile", "", new { @class = "btn btn-info btn-sm" })
+        <form id="deleteForm">
+            <table class="table table-striped table-bordered">
+                <thead class="text-bg-info">
+                    <tr>
+                        <th>Edit</th>
+                        <th>@Html.DisplayNameFor(model => model.Sno)</th>
+                        <th>@Html.DisplayNameFor(model => model.InstitutionName)</th>
+                        <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
+                        <th>@Html.DisplayNameFor(model => model.UserName)</th>
+                        <th>WMN</th>
+                        <th>VFN</th>
+                        <th>VT</th>
+                        <th>TFT</th>
+                        <th>DIP</th>
+                        <th>@Html.DisplayNameFor(model => model.RechargeAmount)</th>
+                        <th>DOR</th>
+                        <th>ReferenceNumber</th>
+                        <th>@Html.DisplayNameFor(model => model.Status)</th>
+                        <th>@Html.DisplayNameFor(model => model.Expiration)</th>
+                        <th>@Html.DisplayNameFor(model => model.FastagAccount)</th>
+                        <th>@Html.DisplayNameFor(model => model.Remarks)</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody class="fw-bold text-info">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Sno }, new { @class = "btn btn-primary btn-sm" })
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Sno)</td>
+                            <td>@Html.DisplayFor(modelItem => item.InstitutionName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DepartmentName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.WhatsappMobileNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.VehicleFullNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.VehicleType)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TravellingFromTO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DepartmentInChargePermission)</td>
+                            <td>@Html.DisplayFor(modelItem => item.RechargeAmount)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DateOfRequest)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ReferenceNo)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Expiration)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FastagAccount)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Remarks)</td>
+                            <td>
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Sno }, new { @class = "btn btn-danger btn-sm" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</body>

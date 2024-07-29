@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Welcome";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Your layout file path
+}
+
+<body style="background-color: darkkhaki">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center my-4">
+                <img src="~/Image/FullHD_4-Shiv Baba Rays Transparent.png" alt="Shiva Image" class="img-fluid" style="max-height: 150px;" />
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body" style="background-color: coral">
+                        <h5 class="card-title text-white text-center">
+                            <span style="background-color: salmon; padding: 5px;">Welcome to FASTAG Recharge Requisition Form</span>
+                        </h5>
+                        <div class="text-center my-3">
+                            <img src="~/Image/Fastag.jpg" alt="Welcome Image" class="img-fluid" style="max-height: 100px;" />
+                        </div>
+                        <div class="text-center my-3">
+                            <a href="@Url.Action("FastagForm", "IOS")" class="btn btn-primary " style="width:300px">New Request For Fastag Recharge</a>
+                        </div>
+                        <div class="text-center my-3">
+                            <a href="@Url.Action("CheckStatus", "IOS")" class="btn btn-primary " style="width:300px">Check Status of Fastag Recharge</a>
+                        </div>
+                        <div class="text-center my-3">
+                            <a href="@Url.Action("IndexMobile", "IOS")" class="btn btn-primary " style="width:300px">Request to Change Mobile number</a>
+                        </div>
+                        <div class="text-center my-3">
+                            <a href="@Url.Action("IndexStatus", "IOS")" class="btn btn-primary " style="width:300px">Status of Mobile Number Change</a>
+                        </div>
+                        <div class="text-center my-3">
+                            <a href="#" class="btn btn-primary" style="width:300px" onclick="exitApplication()">Exit</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+    <script>
+        function exitApplication() {
+            window.location.href = '@Url.Action("IndexImage", "Home")'; // Add exit application logic here
+        }
+    </script>
+}

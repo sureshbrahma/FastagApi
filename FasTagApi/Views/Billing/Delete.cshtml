@@ -1,0 +1,65 @@
+﻿@model FasTagApi.Models.Billing
+
+@{
+    ViewBag.Title = "Delete Billing";
+}
+
+<style>
+    body {
+        background-color: cornsilk; /* Light grey background for the body */
+    }
+
+    h5 {
+        font-family: 'Arial', sans-serif;
+        font-size: 1.5rem;
+        text-shadow: 2px 2px 4px #888888;
+        text-align: center;
+    }
+
+    .title-span {
+        background-color: mediumvioletred;
+        color: white;
+        padding: 1px;
+        border-radius: 10px;
+    }
+
+    .custom-editor {
+        width: 30%; /* Adjust the width as needed */
+    }
+
+    .fw-bold {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container-fluid mt-4 fw-bold text-center">
+    <h4>Are you sure you want to delete this?</h4>
+    <div>
+        <h4>@Model.BillNo</h4>
+        <dl class="dl-horizontal">
+            <dt>Bill Date</dt>
+            <dd>@Model.BillDate</dd>
+            <dt>Amount</dt>
+            <dd>@Model.Amount</dd>
+            <dt>Ref No</dt>
+            <dd>@Model.RefNo</dd>
+            <dt>Date Of Payment</dt>
+            <dd>@Model.DateOfPayment</dd>
+            <dt>Department</dt>
+            <dd>@Model.Department</dd>
+            <dt>Party Name</dt>
+            <dd>@Model.PartyName</dd>
+            <dt>Mode</dt>
+            <dd>@Model.Mode</dd>
+        </dl>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions">
+            <input type="submit" value="Delete" class="btn btn-sm btn-danger" />
+            @Html.ActionLink("Back to Home", "Index")
+        </div>
+    }
+</div>

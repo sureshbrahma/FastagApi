@@ -1,0 +1,94 @@
+﻿@model IEnumerable<FasTagApi.Models.MobileChange>
+
+@{
+    ViewBag.Title = "Status of Mobile Number Change";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .centered-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: antiquewhite;
+            border: 5px solid red;
+            padding: 20px;
+        }
+
+        .table-container {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body style="background-color:aliceblue">
+
+    <div class="centered-form container">
+        @using (Html.BeginForm("FetchStatus", "IOS", FormMethod.Post))
+        {
+            <div class="form-container mb-4">
+                <h5 class="bg-info text-white text-center p-2">Status of Mobile Number Change</h5>
+                <div class="form-group">
+                    @Html.Label("Vehicle Number", new { @class = "font-weight-bold" })
+                    @Html.TextBox("vehicleNumber", null, new { @class = "form-control", placeholder = "Please Enter your Full Vehicle Number", required = "required" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Old Mobile Number", new { @class = "font-weight-bold" })
+                    @Html.TextBox("oldMobileNumber", null, new { @class = "form-control", placeholder = "Please Enter your Old Mobile Number", required = "required" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("New Mobile Number", new { @class = "font-weight-bold" })
+                    @Html.TextBox("newMobileNumber", null, new { @class = "form-control", placeholder = "Please Enter your New Mobile Number", required = "required" })
+                </div>
+                <button type="submit" class="btn btn-primary btn-block mt-3">Fetch Status</button>
+            </div>
+        }
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger text-center w-100">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-container container">
+                <table class="table table-striped text-primary text-center">
+                    <thead>
+                        <tr>
+                            <th>Vehicle Number</th>
+                            <th>Old Mobile Number</th>
+                            <th>New Mobile Number</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="fw-bold">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.VehicleNumber</td>
+                                <td>@item.OldMobileNumber</td>
+                                <td>@item.NewMobileNumber</td>
+                                <td>@item.Status</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+﻿@model FasTagApi.Models.VehicleRequest
+
+@{
+    ViewBag.Title = "Edit Vehicle Request";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            background-color: cornsilk; /* Light grey background for the body */
+        }
+
+        h5 {
+            font-family: 'Arial', sans-serif;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px #888888;
+            text-align: center;
+        }
+
+        .title-span {
+            background-color: mediumvioletred;
+            color: white;
+            padding: 1px;
+            border-radius: 10px;
+        }
+
+        .custom-editor {
+            width: 30%; /* Adjust the width as needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid mt-4 fw-bold">
+
+        <h5><span class="title-span">Edit Fastag Recharge Requisition Details</span></h5>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="text-center">
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Sno)
+
+                    <div class="form-group">
+
+                        <div class="col-md-12 mt-4">
+                            @Html.LabelFor(model => model.InstitutionName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.InstitutionName)
+                            @Html.ValidationMessageFor(model => model.InstitutionName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.DepartmentName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.DepartmentName)
+                            @Html.ValidationMessageFor(model => model.DepartmentName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.UserName)
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.WhatsappMobileNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.WhatsappMobileNumber)
+                            @Html.ValidationMessageFor(model => model.WhatsappMobileNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.VehicleFullNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.VehicleFullNumber)
+                            @Html.ValidationMessageFor(model => model.VehicleFullNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.VehicleType, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.VehicleType)
+                            @Html.ValidationMessageFor(model => model.VehicleType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.TravellingFromTO, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.TravellingFromTO)
+                            @Html.ValidationMessageFor(model => model.TravellingFromTO, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.DepartmentInChargePermission, "DIP", htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.DepartmentInChargePermission)
+                            @Html.ValidationMessageFor(model => model.DepartmentInChargePermission, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.RechargeAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.RechargeAmount)
+                            @Html.ValidationMessageFor(model => model.RechargeAmount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.DateOfRequest, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.DateOfRequest)
+                            @Html.ValidationMessageFor(model => model.DateOfRequest, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ReferenceNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.ReferenceNo)
+                            @Html.ValidationMessageFor(model => model.ReferenceNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12 ">
+                            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = " control-label col-md-2", style = "margin-left:280px" })
+                            @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "col-md-10 custom-editor" } })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Expiration, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Expiration)
+                            @Html.ValidationMessageFor(model => model.Expiration, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.FastagAccount, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.FastagAccount)
+                            @Html.ValidationMessageFor(model => model.FastagAccount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Remarks)
+                            @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>

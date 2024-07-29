@@ -1,0 +1,76 @@
+﻿@model FasTagApi.Models.MobileChange
+
+@{
+    ViewBag.Title = "Delete Vehicle Request";
+}
+<body style="background-color:honeydew">
+    <h2 class="text-center">Delete Fastag Request</h2>
+
+    <h3 class="text-center">Are you sure you want to delete this?</h3>
+    <div class="container  text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+
+                <table class="table table-bordered table-striped">
+                    <tbody>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.S_NO)</th>
+                            <td>@Html.DisplayFor(model => model.S_NO)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.VehicleNumber)</th>
+                            <td>@Html.DisplayFor(model => model.VehicleNumber)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.OldMobileNumber)</th>
+                            <td>@Html.DisplayFor(model => model.OldMobileNumber)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.NewMobileNumber)</th>
+                            <td>@Html.DisplayFor(model => model.NewMobileNumber)</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>@Html.DisplayFor(model => model.Status)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Remarks)</th>
+                            <td>@Html.DisplayFor(model => model.Remarks)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-actions text-center mt-4">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    .form-actions {
+        margin-top: 20px;
+    }
+
+    table {
+        margin-top: 20px;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>

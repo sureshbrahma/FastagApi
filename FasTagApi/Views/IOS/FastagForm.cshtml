@@ -1,0 +1,308 @@
+﻿@model FasTagApi.Models.VehicleRequest
+
+@{
+    ViewBag.Title = "FASTAG Recharges Requisition Form";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Your layout file path
+}
+
+<style>
+    h2 {
+        font-family: 'Arial', sans-serif;
+        font-size: 1.1rem;
+        text-shadow: 2px 2px 4px #888888;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .title-span {
+        background-color: mediumvioletred;
+        color: white;
+        padding: 1px;
+        border-radius: 10px;
+    }
+
+    .btn-custom {
+        font-weight: bold;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+</style>
+<body style="background-color: cornsilk">
+
+    <div class="container" style="max-width: 350px;">
+        <h2 class="mt-4"><span class="title-span">FASTAG Recharges Requisition Form</span></h2>
+
+        @using (Html.BeginForm("FastagForm", "IOS", FormMethod.Post, new { @id = "vehicleRequestForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card" style="background-color: cyan;">
+                <div class="form-horizontal text-center fw-bold p-3" style="">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group mt-4 row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.InstitutionName, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.InstitutionName, new SelectList(new[]
+                                {
+                                    new SelectListItem { Text = "BRAHMAKUMARIS", Value = "BRAHMAKUMARIS" },
+                                    new SelectListItem { Text = "W.R.S.T.", Value = "W.R.S.T." }
+                                }, "Value", "Text"), "Please select an institution", new { @id = "InstitutionName", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.InstitutionName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.DepartmentName, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DepartmentName, new { @id = "DepartmentName", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DepartmentName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.UserName, new { @id = "UserName", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.WhatsappMobileNumber, "WhatsApp Mobile No", htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.WhatsappMobileNumber, new { @id = "WhatsappMobileNumber", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.WhatsappMobileNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.VehicleFullNumber, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.VehicleFullNumber, new { @id = "VehicleFullNumber", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.VehicleFullNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.VehicleType, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.VehicleType, new SelectList(new[]
+                                {
+                                    new SelectListItem { Text = "Car", Value = "Car" },
+                                    new SelectListItem { Text = "Bus", Value = "Bus" },
+                                    new SelectListItem { Text = "Truck", Value = "Truck" }
+                                }, "Value", "Text"), "Please select vehicle type", new { @id = "VehicleType", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.VehicleType, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.TravellingFromTO, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.TravellingFromTO, new { @id = "TravellingFromTO", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.TravellingFromTO, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.DepartmentInChargePermission, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DepartmentInChargePermission, new { @id = "DepartmentInChargePermission", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DepartmentInChargePermission, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.RechargeAmount, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.RechargeAmount, new { @id = "RechargeAmount", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.RechargeAmount, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-12">
+                            @Html.LabelFor(model => model.DateOfRequest, htmlAttributes: new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DateOfRequest, new { @id = "DateOfRequest", @class = "form-control datepicker" })
+                            @Html.ValidationMessageFor(model => model.DateOfRequest, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12">
+                            <button type="button" class="btn btn-custom mt-3" onclick="validateForm()">Preview</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="previewModalLabel">Preview</h5>
+                <button type="button" class="close" onclick="closePreviewModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="previewContent">
+                <!-- Preview content will be injected here by JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closePreviewModal()">Edit</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Initialize datepicker
+            $("#DateOfRequest").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+        });
+
+        function validateForm() {
+            var isValid = true;
+            var messages = [];
+
+            var institution = $('#InstitutionName').val();
+            if (institution == null || institution.trim() === '' || institution === 'Please select an institution') {
+                messages.push('Please select an institution');
+                isValid = false;
+            }
+
+            var departmentName = $('#DepartmentName').val();
+            if (departmentName == null || departmentName.trim() === '') {
+                messages.push('Please enter the department name');
+                isValid = false;
+            }
+
+            var userName = $('#UserName').val();
+            if (userName == null || userName.trim() === '') {
+                messages.push('Please enter your name');
+                isValid = false;
+            }
+
+            var whatsappNumber = $('#WhatsappMobileNumber').val();
+            if (whatsappNumber == null || whatsappNumber.trim() === '') {
+                messages.push('Please enter the WhatsApp mobile number');
+                isValid = false;
+            }
+
+            var vehicleNumber = $('#VehicleFullNumber').val();
+            if (vehicleNumber == null || vehicleNumber.trim() === '') {
+                messages.push('Please enter your vehicle number');
+                isValid = false;
+            } else if (!/^[A-Za-z0-9]+$/.test(vehicleNumber)) {
+                messages.push('Vehicle number should not contain spaces or special characters');
+                isValid = false;
+            }
+
+            var vehicleType = $('#VehicleType').val();
+            if (vehicleType == null || vehicleType.trim() === '' || vehicleType === 'Please select vehicle type') {
+                messages.push('Please select the type of vehicle');
+                isValid = false;
+            }
+
+            var travelFromTo = $('#TravellingFromTO').val();
+            if (travelFromTo == null || travelFromTo.trim() === '') {
+                messages.push('Please enter the travel details');
+                isValid = false;
+            }
+
+            var departmentInChargePermission = $('#DepartmentInChargePermission').val();
+            if (departmentInChargePermission == null || departmentInChargePermission.trim() === '') {
+                messages.push('Please enter the permission details');
+                isValid = false;
+            }
+
+            var rechargeAmount = $('#RechargeAmount').val();
+            if (rechargeAmount == null || rechargeAmount.trim() === '') {
+                messages.push('Please enter the recharge amount');
+                isValid = false;
+            } else {
+                var amount = parseInt(rechargeAmount, 10);
+                if (isNaN(amount) || amount < 100) {
+                    messages.push('Minimum recharge amount is Rs. 100');
+                    isValid = false;
+                }
+            }
+
+            var requestDate = $('#DateOfRequest').val();
+            if (requestDate == null || requestDate.trim() === '') {
+                messages.push('Please select the date of request');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                alert(messages.join('\n'));
+            } else {
+                showPreview();
+            }
+        }
+
+        function showPreview() {
+            var previewContent = `
+                        <p><strong>Institution Name:</strong> ${$('#InstitutionName').val()}</p>
+                        <p><strong>Department Name:</strong> ${$('#DepartmentName').val()}</p>
+                        <p><strong>User Name:</strong> ${$('#UserName').val()}</p>
+                        <p><strong>WhatsApp Mobile Number:</strong> ${$('#WhatsappMobileNumber').val()}</p>
+                        <p><strong>Vehicle Full Number:</strong> ${$('#VehicleFullNumber').val()}</p>
+                        <p><strong>Vehicle Type:</strong> ${$('#VehicleType').val()}</p>
+                        <p><strong>Travelling From/To:</strong> ${$('#TravellingFromTO').val()}</p>
+                        <p><strong>Department In Charge Permission:</strong> ${$('#DepartmentInChargePermission').val()}</p>
+                        <p><strong>Recharge Amount:</strong> ${$('#RechargeAmount').val()}</p>
+                        <p><strong>Date of Request:</strong> ${$('#DateOfRequest').val()}</p>
+                    `;
+            $('#previewContent').html(previewContent);
+            $('#previewModal').modal('show');
+        }
+
+        function closePreviewModal() {
+            $('#previewModal').modal('hide');
+        }
+
+         function submitForm() {
+            $.ajax({
+       url: '@Url.Action("FastagForm", "IOS")',
+       type: 'POST',
+       data: $('#vehicleRequestForm').serialize(),
+       success: function (response) {
+           if (response.success) {
+               // Show success alert with reference number
+               alert(`Your Fastag Recharge Request submitted successfully with reference No ${response.referenceNo}`);
+               // Optionally, close the modal or perform any other actions
+               $('#previewModal').modal('hide'); // Example: Close the modal
+               // Redirect to Index page of IOS controller
+               window.location.href = '@Url.Action("Index", "IOS")';
+           } else {
+               // Handle errors or show validation messages if needed
+               alert('Failed to submit Fastag Recharge Request.');
+           }
+       },
+       error: function () {
+           alert('An error occurred while processing your request.');
+       }
+   });
+        }
+    </script>
+
+}
+
+}

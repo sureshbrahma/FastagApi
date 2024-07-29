@@ -1,0 +1,117 @@
+﻿@model FasTagApi.Models.MobileChange
+
+@{
+    ViewBag.Title = "Change Mobile Number";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .form-container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .card-custom {
+            background-color: darkkhaki;
+        }
+
+        .card-header-custom {
+            background-color: darkred;
+            color: white;
+        }
+
+        .form-group-custom {
+            margin-top: 15px;
+        }
+
+        .btn-submit {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body style="background-color:azure">
+
+    <div class="container mt-5 form-container">
+        <div class="card card-custom">
+            <div class="card-header card-header-custom text-center">
+                <h2>Change Mobile Number</h2>
+            </div>
+            <div class="card-body text-center">
+                @using (Html.BeginForm("Submit", "IOS", FormMethod.Post, new { id = "mobileChangeForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group form-group-custom">
+                        @Html.LabelFor(m => m.VehicleNumber, new { @class = "font-weight-bold col-md-3" })
+                        @Html.TextBoxFor(m => m.VehicleNumber, new { @class = "", placeholder = "Enter Full vehicle number" })
+                        @Html.ValidationMessageFor(m => m.VehicleNumber, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group form-group-custom">
+                        @Html.LabelFor(m => m.OldMobileNumber, new { @class = "font-weight-bold col-md-3" })
+                        @Html.TextBoxFor(m => m.OldMobileNumber, new { @class = "", placeholder = "Enter old mobile number" })
+                        @Html.ValidationMessageFor(m => m.OldMobileNumber, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group form-group-custom">
+                        @Html.LabelFor(m => m.NewMobileNumber, new { @class = "font-weight-bold col-md-3" })
+                        @Html.TextBoxFor(m => m.NewMobileNumber, new { @class = "", placeholder = "Enter new mobile number" })
+                        @Html.ValidationMessageFor(m => m.NewMobileNumber, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group text-center btn-submit">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript">
+            $(function () {
+                $('#mobileChangeForm').submit(function (event) {
+                    event.preventDefault(); // Prevent default form submission
+
+                    var vehicleNumber = $('#VehicleNumber').val().trim();
+                    var oldMobileNumber = $('#OldMobileNumber').val().trim();
+                    var newMobileNumber = $('#NewMobileNumber').val().trim();
+
+                    // Simple validation for empty fields
+                    if (!vehicleNumber || !oldMobileNumber || !newMobileNumber) {
+                        alert('Please enter all details.');
+                        return;
+                    }
+
+                    // Validation for specific formats
+                    var vehicleNumberPattern = /^[A-Za-z0-9]+$/;
+                    if (!vehicleNumberPattern.test(vehicleNumber)) {
+                        alert('Vehicle number should not contain spaces or special characters.');
+                        return;
+                    }
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: 'POST',
+                        data: $(this).serialize(),
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+                                window.location.href = '@Url.Action("Index", "IOS")';
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert('An error occurred: ' + error);
+                        }
+                    });
+                });
+            });
+        </script>
+    }
+</body>
+</html>

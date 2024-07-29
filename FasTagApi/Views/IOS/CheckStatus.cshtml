@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Check Status";
+}
+<style>
+    /* Custom styles for the card view */
+    .card {
+        border-radius: 5px;
+        padding: 5px;
+    }
+
+    .card-title {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+
+    #statusContainer p {
+        font-size: 16px;
+    }
+</style>
+<div class="container d-flex justify-content-center">
+    <div class="card shadow-lg mt-5 bg-info" style="width: 100%; max-width: 600px; ">
+        <div class="card-body" style="background-color:indianred">
+            <h2 class="card-title text-center text-white">Check Status</h2>
+
+            <div class="form-group row">
+                <label for="vehicleNumber" class="col-sm-4 col-form-label text-white fw-bold">Vehicle Number</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="vehicleNumber" placeholder="Please Enter your Full Vehicle Number">
+                </div>
+            </div>
+
+            <button id="fetchReferenceNumbersBtn" class="btn btn-primary btn-block">Fetch Reference Numbers</button>
+
+            <div id="errorMessage" class="text-white mt-3 text-center fw-bold"></div>
+
+            <div id="referenceNumbersContainer" class="mt-4" style="display: none;">
+                <div class="form-group row">
+                    <label for="referenceNumbers" class="col-sm-4 col-form-label text-white fw-bold">Select Reference Number</label>
+                    <div class="col-sm-8">
+                        <select id="referenceNumbers" class="form-control"></select>
+                    </div>
+                </div>
+                <button id="submitBtn" class="btn btn-primary btn-block">Submit</button>
+            </div>
+
+            <div id="statusContainer" class="mt-4" style="display: none;">
+                <p class="text-white"><strong>Reference Number:   </strong> <span id="selectedReferenceNumber"><b></b></span></p>
+                <p class="text-white"><strong>Status:    </strong> <span id="selectedStatus"><b></b></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#fetchReferenceNumbersBtn').click(function () {
+                const vehicleNumber = $('#vehicleNumber').val().trim();
+                if (vehicleNumber === '') {
+                    $('#errorMessage').text('Vehicle number is required');
+                    return;
+                }
+
+                $.post('@Url.Action("GetReferenceNumbers", "IOS")', { vehicleNumber: vehicleNumber }, function (response) {
+                    if (response.success) {
+                        const referenceNumbers = response.referenceNumbers;
+                        const referenceNumbersSelect = $('#referenceNumbers');
+                        referenceNumbersSelect.empty();
+                        referenceNumbers.forEach(function (number) {
+                            referenceNumbersSelect.append(new Option(number, number));
+                        });
+
+                        $('#referenceNumbersContainer').show();
+                        $('#errorMessage').text('');
+                    } else {
+                        $('#errorMessage').text(response.message);
+                        $('#referenceNumbersContainer').hide();
+                    }
+                }).fail(function () {
+                    $('#errorMessage').text('An error occurred while processing your request.');
+                });
+            });
+
+            $('#submitBtn').click(function () {
+                const referenceNumber = $('#referenceNumbers').val();
+                if (!referenceNumber) {
+                    $('#errorMessage').text('Please select a reference number');
+                    return;
+                }
+
+                $.post('@Url.Action("GetStatus", "IOS")', { referenceNumber: referenceNumber }, function (response) {
+                    if (response.success) {
+                        $('#selectedReferenceNumber').text(referenceNumber);
+                        $('#selectedStatus').text(response.status);
+                        $('#statusContainer').show();
+                    } else {
+                        $('#errorMessage').text(response.message);
+                        $('#statusContainer').hide();
+                    }
+                }).fail(function () {
+                    $('#errorMessage').text('An error occurred while processing your request.');
+                });
+            });
+        });
+    </script>
+}

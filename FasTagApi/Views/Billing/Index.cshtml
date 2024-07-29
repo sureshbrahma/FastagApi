@@ -1,0 +1,182 @@
+﻿@model IEnumerable<FasTagApi.Models.Billing>
+
+@{
+    ViewBag.Title = "Billing Index";
+}
+
+<style>
+    /* Existing styles */
+    body {
+        background-color: cornsilk;
+        font-size: 0.9rem; /* Reduce font size for the entire page */
+    }
+
+    .table {
+        margin-top: 20px;
+        background-color: #ffffff;
+        font-size: 0.9rem; /* Reduce font size for table content */
+    }
+
+    .thead-dark th {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: lavenderblush;
+    }
+
+    .btn-warning {
+        margin-right: 5px;
+        color: white;
+    }
+
+    .btn-danger {
+        margin-right: 5px;
+        color: white;
+    }
+
+    h2 {
+        font-family: 'Arial', sans-serif;
+        font-size: 1.5rem;
+        text-shadow: 2px 2px 4px #888888;
+        text-align: center;
+    }
+
+    .title-span {
+        background-color: darkblue;
+        color: white;
+        padding: 2px;
+        border-radius: 10px;
+    }
+
+    .container-fluid {
+        padding: 20px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+    }
+
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+
+        .table-bordered thead th,
+        .table-bordered tbody td {
+            border: 1px solid #dee2e6;
+        }
+
+        .table-bordered thead th {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+        .table-bordered tbody td {
+            color: #212529;
+        }
+
+        .table-bordered tbody tr:hover {
+            background-color: lightskyblue;
+        }
+
+    .text-info {
+        color: #17a2b8;
+    }
+
+    .fw-bold {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container-fluid mt-4">
+    <h2><span class="title-span">Paid Bills Information</span></h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <p>
+        <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Create", "Billing")'">Create New</button>
+        <button type="button" class="btn btn-danger" onclick="deleteSelected()">Delete Selected</button>
+    </p>
+    @using (Html.BeginForm("DeleteSelected", "Billing", FormMethod.Post))
+    {
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll" /></th>
+                    <th>SNO</th>
+                    <th>Bill No</th>
+                    <th>Bill Date</th>
+                    <th>Amount</th>
+                    <th>Ref No</th>
+                    <th>Date Of Payment</th>
+                    <th>Department</th>
+                    <th>Party Name</th>
+                    <th>Mode</th>
+                    <th>ViewedStatus</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    DateTime date = new DateTime();
+                    <tr>
+                        <td><input type="checkbox" name="selectedSnos" value="@item.SNO" /></td>
+                        <td>@item.SNO</td>
+                        <td>@item.BillNo</td>
+                        <td>@item.BillDate.ToString("dd-MM-yyyy")</td>
+                        <td>@item.Amount</td>
+                        <td>@item.RefNo</td>
+                        @if (item.DateOfPayment != null)
+                        {
+                            date = (DateTime)@item.DateOfPayment;
+                        }
+                        <td>@date.ToString("dd-MM-yyyy")</td>
+                        <td>@item.Department</td>
+                        <td>@item.PartyName</td>
+                        <td>@item.Mode</td>
+                        <td>@item.ViewStatus</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-info" onclick="location.href='@Url.Action("Edit", "Billing", new { id = item.SNO })'">Edit</button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-danger" onclick="location.href='@Url.Action("Delete", "Billing", new { id = item.SNO })'">Delete</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#selectAll').on('change', function () {
+            $('input[name="selectedSnos"]').prop('checked', $(this).prop('checked'));
+        });
+    });
+
+    function deleteSelected() {
+        if (confirm('Are you sure you want to delete the selected records?')) {
+            $('form').submit();
+        }
+    }
+</script>
