@@ -76,7 +76,7 @@ namespace FasTagApi.Controllers
             {
                 db.Entry(vehicleRequest).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Fastag Details Edited Successfully";
+                TempData["SuccessMessage"] = "Fastag Mobile Number Changed Details Edited Successfully";
                 return RedirectToAction("IndexMobile");
             }
             return View(vehicleRequest);
@@ -162,6 +162,33 @@ namespace FasTagApi.Controllers
             await db.SaveChangesAsync();
             TempData["SuccessMessage"] = "Fastag Details Deleted Successfully";
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public JsonResult UpdateExpireStatus()
+        {
+            try
+            {
+                var threeDaysAgo = DateTime.Now.AddDays(-4);
+                var requestsToUpdate = db.VehicleRequests
+                    .Where(v => v.DateOfRequest <= threeDaysAgo)
+                    .ToList();
+
+                foreach (var request in requestsToUpdate)
+                {
+                    request.Expiration = "Yes";
+                    db.Entry(request).State = System.Data.Entity.EntityState.Modified;
+                }
+                db.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (consider using a logging framework)
+                System.Diagnostics.Debug.WriteLine($"Exception: {ex.Message}");
+                return Json(new { success = false, message = "An error occurred while updating the status." });
+            }
         }
     }
 }

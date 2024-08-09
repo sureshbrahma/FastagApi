@@ -20,8 +20,8 @@ namespace FasTagApi.Controllers
 
             if (string.IsNullOrWhiteSpace(model.VehicleNumber) ||
                 string.IsNullOrWhiteSpace(model.OldMobileNumber) ||
-                string.IsNullOrWhiteSpace(model.NewMobileNumber) ||
-                string.IsNullOrWhiteSpace(model.Status))
+                string.IsNullOrWhiteSpace(model.NewMobileNumber))
+
             {
                 return BadRequest("Some required fields are missing or invalid.");
             }
