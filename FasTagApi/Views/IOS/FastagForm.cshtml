@@ -131,10 +131,11 @@
                     <div class="form-group row">
                         <div class="col-12 col-md-12">
                             @Html.LabelFor(model => model.DateOfRequest, htmlAttributes: new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.DateOfRequest, new { @id = "DateOfRequest", @class = "form-control datepicker" })
+                            @Html.TextBoxFor(model => model.DateOfRequest, new { @id = "DateOfRequest", @class = "form-control", @type = "date" })
                             @Html.ValidationMessageFor(model => model.DateOfRequest, "", new { @class = "text-danger" })
                         </div>
                     </div>
+
 
                     <div class="form-group row">
                         <div class="col-12">
@@ -145,35 +146,37 @@
             </div>
         }
     </div>
-</body>
 
-<!-- Preview Modal -->
-<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="previewModalLabel">Preview</h5>
-                <button type="button" class="close" onclick="closePreviewModal()" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="previewContent">
-                <!-- Preview content will be injected here by JavaScript -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closePreviewModal()">Edit</button>
-                <button type="button" class="btn btn-primary" onclick="submitForm()">Confirm</button>
+
+    <!-- Preview Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="previewModalLabel">Preview</h5>
+                    <button type="button" class="close" onclick="closePreviewModal()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="previewContent">
+                    <!-- Preview content will be injected here by JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closePreviewModal()">Edit</button>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">Confirm</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 @section Scripts {
     <script>
         $(document).ready(function () {
             // Initialize datepicker
-            $("#DateOfRequest").datepicker({
-                dateFormat: "yy-mm-dd"
+            $('#DateOfRequest').datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                todayHighlight: true,
             });
         });
 

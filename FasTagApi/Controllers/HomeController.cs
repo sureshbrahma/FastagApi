@@ -190,5 +190,27 @@ namespace FasTagApi.Controllers
                 return Json(new { success = false, message = "An error occurred while updating the status." });
             }
         }
+
+        [HttpPost]
+        public JsonResult UpdateField(int id, string columnName, string newValue)
+        {
+            try
+            {
+                var record = db.VehicleRequests.Find(id);
+                if (record != null)
+                {
+                    // Update the specific field dynamically
+                    typeof(VehicleRequest).GetProperty(columnName)?.SetValue(record, newValue);
+
+                    db.SaveChanges();
+                    return Json(new { success = true });
+                }
+                return Json(new { success = false, message = "Record not found" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
     }
 }

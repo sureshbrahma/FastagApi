@@ -16,6 +16,8 @@
         background-color: #ffffff;
         font-size: 0.9rem; /* Reduce font size for table content */
         table-layout: auto; /* Allow columns to adjust width based on content */
+        width: 100%; /* Ensure table takes full width */
+        border-collapse: collapse;
     }
 
     .thead-dark th {
@@ -126,10 +128,10 @@
 </style>
 
 <script>
-    // Function to refresh the page every 60 seconds (60000 milliseconds)
+    // Function to refresh the page every 90 seconds (90000 milliseconds)
     setInterval(function () {
         location.reload();
-    }, 60000); // 60000 milliseconds = 60 seconds
+    }, 90000); // 90000 milliseconds = 30 seconds
 
     function searchTable() {
         // Declare variables
@@ -183,6 +185,52 @@
         });
     });
 </script>
+<script>
+    // Enable inline editing for the table
+    $(document).ready(function () {
+        $(".editable").on("click", function () {
+            let currentElement = $(this);
+            if (!currentElement.hasClass("editing")) {
+                let currentValue = currentElement.text().trim();
+                let inputField = $(`<input type="text" class="form-control">`).val(currentValue);
+                currentElement.empty().append(inputField).addClass("editing");
+                inputField.focus();
+                inputField.on("blur", function () {
+                    let newValue = $(this).val().trim();
+                    currentElement.text(newValue).removeClass("editing");
+
+                    // Optional: Add logic to save changes immediately
+                    let columnName = currentElement.data("column");
+                    let rowId = currentElement.closest("tr").data("id");
+                    saveChange(rowId, columnName, newValue);
+                });
+            }
+        });
+    });
+
+    // Function to save changes to the server
+    function saveChange(id, columnName, newValue) {
+        $.ajax({
+            url: '@Url.Action("UpdateField", "Home")', // Replace with your actual action and controller
+            method: 'POST',
+            data: {
+                id: id,
+                columnName: columnName,
+                newValue: newValue
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert("Changes saved successfully!");
+                } else {
+                    alert("Failed to save changes: " + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("An error occurred while saving changes.");
+            }
+        });
+    }
+</script>
 
 @if (TempData["SuccessMessage"] != null)
 {
@@ -194,7 +242,7 @@
 <body>
     <div class="container-fluid mt-4">
         <h2><span class="title-span">Fastag Recharge Requisition Details</span></h2>
-        @Html.ActionLink("Mobile Number Change Request", "IndexMobile", "", new { @class = "btn btn-info btn-sm" })
+        @*@Html.ActionLink("Mobile Number Change Request", "IndexMobile", "", new { @class = "btn btn-info btn-sm" })*@
         <button id="expireStatusButton" class="btn btn-danger btn-sm">Set Status to Expire</button>
         <!-- Search Box -->
         <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for records..">
@@ -209,15 +257,17 @@
                         <th>@Html.DisplayNameFor(model => model.InstitutionName)</th>
                         <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
                         <th>@Html.DisplayNameFor(model => model.UserName)</th>
+
                         <th>WMN</th>
                         <th>@Html.DisplayNameFor(model => model.VehicleFullNumber)</th>
                         <th>@Html.DisplayNameFor(model => model.VehicleType)</th>
-                        <th>TFT</th>
+                        <th>TFT   </th>
                         <th>DIP</th>
                         <th>@Html.DisplayNameFor(model => model.RechargeAmount)</th>
                         <th>@Html.DisplayNameFor(model => model.DateOfRequest)</th>
-                        <th>ReferenceNumber</th>
+                        <th>@Html.DisplayNameFor(model => model.ReferenceNo)</th>
                         <th class="status-column">@Html.DisplayNameFor(model => model.Status)</th>
+
                         <th>@Html.DisplayNameFor(model => model.Expiration)</th>
                         <th>@Html.DisplayNameFor(model => model.FastagAccount)</th>
                         <th>@Html.DisplayNameFor(model => model.Remarks)</th>
@@ -227,26 +277,30 @@
                 <tbody class="fw-bold text-info">
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr data-id="@item.Sno">
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { id = item.Sno }, new { @class = "btn btn-primary btn-sm" })
                             </td>
-                            <td class="hide-column">@Html.DisplayFor(modelItem => item.Sno)</td>
-                            <td>@Html.DisplayFor(modelItem => item.InstitutionName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.DepartmentName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.UserName)</td>
-                            <td>@Html.DisplayFor(modelItem => item.WhatsappMobileNumber)</td>
-                            <td>@Html.DisplayFor(modelItem => item.VehicleFullNumber)</td>
-                            <td>@Html.DisplayFor(modelItem => item.VehicleType)</td>
-                            <td class="status-column">@Html.DisplayFor(modelItem => item.TravellingFromTO)</td>
-                            <td>@Html.DisplayFor(modelItem => item.DepartmentInChargePermission)</td>
-                            <td>@Html.DisplayFor(modelItem => item.RechargeAmount)</td>
-                            <td>@String.Format("{0:dd-MM-yyyy}", item.DateOfRequest)</td>
-                            <td class="status-column">@Html.DisplayFor(modelItem => item.ReferenceNo)</td>
-                            <td class="status-column">@Html.DisplayFor(modelItem => item.Status)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Expiration)</td>
-                            <td>@Html.DisplayFor(modelItem => item.FastagAccount)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Remarks)</td>
+                            @*<td>
+                                    <button class="btn btn-primary btn-sm edit-btn">Edit</button>
+                                </td>*@
+                            <td class="status-column" data-column="InstitutionName">@item.InstitutionName</td>
+                            <td class="status-column" data-column="DepartmentName">@item.DepartmentName</td>
+                            <td class="status-column" data-column="UserName">@item.UserName</td>
+                            <td class="status-column" data-column="WMN">@item.WhatsappMobileNumber</td>
+                            <td class="status-column" data-column="VehicleFullNumber">@item.VehicleFullNumber</td>
+                            <td class="status-column" data-column="VehicleType">@item.VehicleType</td>
+                            <td class=" status-column" data-column="TFT">@item.TravellingFromTO</td>
+                            <td class="status-column " data-column="DIP">@item.DepartmentInChargePermission</td>
+                            <td class="status-column" data-column="RechargeAmount">@item.RechargeAmount</td>
+                            <td class="status-column" data-column="DateOfRequest">@String.Format("{0:dd-MM-yyyy}", item.DateOfRequest)</td>
+                            @*<td>@String.Format("{0:dd-MM-yyyy}", item.DateOfRequest)</td>*@
+                            <td class="status-column" data-column="ReferenceNo">@item.ReferenceNo</td>
+                            <td class="editable status-column" data-column="Status">@item.Status</td>
+
+                            <td class="editable" data-column="Expiration">@item.Expiration</td>
+                            <td class="editable status-column" data-column="FastagAccount">@item.FastagAccount</td>
+                            <td class="editable status-column" data-column="Remarks">@item.Remarks</td>
                             <td>
                                 @Html.ActionLink("Delete", "Delete", new { id = item.Sno }, new { @class = "btn btn-danger btn-sm" })
                             </td>

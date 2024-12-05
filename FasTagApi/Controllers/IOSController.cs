@@ -32,7 +32,7 @@ namespace FasTagApi.Controllers
                 vehicleRequest.Status = "Pending"; // Set initial status
                 vehicleRequest.Expiration = "NO";
                 vehicleRequest.ReferenceNo = GenerateReferenceNumber(); // Generate reference number
-
+                vehicleRequest.DateOfRequest = DateTime.Now;
                 db.VehicleRequests.Add(vehicleRequest);
                 db.SaveChanges();
 
@@ -149,6 +149,11 @@ namespace FasTagApi.Controllers
             }
 
             return View("IndexStatus", results);
+        }
+
+        public ActionResult PrivacyPolicy()
+        {
+            return View();
         }
     }
 }
